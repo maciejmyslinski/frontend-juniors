@@ -16,11 +16,11 @@ const okResponse = jest.fn(() =>
         },
       ],
     },
-  })
+  }),
 );
 
 const setup = props => {
-  const queries = render(<Home {...props} />);
+  const queries = render(<Home searchPeople={okResponse} {...props} />);
   const querySearchInput = () => queries.queryByLabelText('Search:');
   const queryLoadingIndicator = () => queries.queryByText('loading...');
   const changeInputValue = (inputElement, newValue) =>
@@ -50,18 +50,15 @@ describe('Home', () => {
       querySearchInput,
       queryLoadingIndicator,
       changeInputValue,
-    } = render(<Home />);
+    } = setup();
     const inputElement = querySearchInput();
-    const loadingIndicator = queryLoadingIndicator();
-    expect(loadingIndicator).not.toBeInTheDocument();
+    expect(queryLoadingIndicator()).not.toBeInTheDocument();
     changeInputValue(inputElement, 'chewbacca');
-    expect(loadingIndicator).toBeInTheDocument();
+    expect(queryLoadingIndicator()).toBeInTheDocument();
   });
 
   it('renders results', async () => {
-    const { querySearchInput, changeInputValue, getByText } = setup({
-      searchPeople: okResponse,
-    });
+    const { querySearchInput, changeInputValue, getByText } = setup();
     const inputElement = querySearchInput();
     changeInputValue(inputElement, 'chewba');
     await waitForElement(() => getByText('chewbacca'));
@@ -73,9 +70,7 @@ describe('Home', () => {
       changeInputValue,
       getByText,
       queryLoadingIndicator,
-    } = render({
-      searchPeople: okResponse,
-    });
+    } = setup();
     const inputElement = querySearchInput();
     changeInputValue(inputElement, 'chewba');
     await waitForElement(() => getByText('chewbacca'));
