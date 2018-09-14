@@ -18,9 +18,9 @@ module.exports = {
     },
   },
   rules: {
-    'react/jsx-filename-extension': [
-      2, { extensions: ['.js'] },
-    ],
+    'arrow-parens': ['error', 'as-needed'],
+    'react/jsx-filename-extension': [2, { extensions: ['.js'] }],
     'import/prefer-default-export': 'off',
+    'import/core-modules': ['prop-types'],
   },
 };
